@@ -1,15 +1,17 @@
-import { NextRequest } from "next/server";
+import type { NextRequest } from "next/server"
+import { NextResponse } from "next/server"
 import TextToSVG from "text-to-svg";
 import path from "path";
 
 const fontPath = path.resolve(process.cwd(), "public/fonts/Roboto-Regular.ttf");
 const textToSVG = TextToSVG.loadSync(fontPath);
 
+
 export async function GET(
   req: NextRequest,
-  { params }: { params: { size: string } }
+  context: { params: { size: string } }
 ) {
-  const { size } = params;
+  const { size } = context.params;
   const [width, height] = size.split("x").map(Number);
 
   if (!width || !height || width > 4000 || height > 4000 || width < 10 || height < 10) {
