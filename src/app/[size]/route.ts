@@ -5,17 +5,11 @@ import path from "path"
 const fontPath = path.resolve(process.cwd(), "public/fonts/Roboto-Regular.ttf");
 const textToSVG = TextToSVG.loadSync(fontPath);
 
-type Params = {
-  params: Promise<{
-    size: string
-  }>
-}
-
 export async function GET(
   req: NextRequest,
-  { params }: Params
+  { params }: { params: Promise<{ size: string }> }
 ) {
-  const { size } = await params; // Note: params is now a Promise
+  const { size } = await params;
   const [width, height] = size.split("x").map(Number);
 
   if (!width || !height || width > 4000 || height > 4000 || width < 10 || height < 10) {

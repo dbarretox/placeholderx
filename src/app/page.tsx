@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -60,11 +61,16 @@ export default function Home() {
         </div>
       </div>
 
-      <img
-        src={imageUrl}
-        alt={`Placeholder ${size}`}
-        className="bg-white rounded-md border shadow mt-6 max-w-full"
-      />
+      <div className="relative mt-6 max-w-full">
+        <Image
+          src={imageUrl}
+          alt={`Placeholder ${size}`}
+          width={parseInt(width) || 600}
+          height={parseInt(height) || 400}
+          className="bg-white rounded-md border shadow"
+          unoptimized
+        />
+      </div>
 
     </main>
   );
