@@ -44,7 +44,7 @@ export default function Home() {
               id="height"
               type="text"
               value={height}
-              onChange={(e) => setHeight(e.target.value.replace(/|D/g, ""))}
+              onChange={(e) => setHeight(e.target.value.replace(/\D/g, ""))}
               placeholder="400"
             />
           </div>
