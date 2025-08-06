@@ -50,7 +50,7 @@ export default function Home() {
   ];
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-gray-900 dark:text-white transition-colors">
+    <main className="min-h-screen bg-gradient-to-br from-violet-50 via-violet-100 to-violet-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-gray-900 dark:text-white transition-colors">
       {/* Mode Toggle positioned absolutely */}
       <div className="absolute top-4 right-4 z-20">
         <ModeToggle />
