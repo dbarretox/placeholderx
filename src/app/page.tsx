@@ -5,7 +5,7 @@ import Image from "next/image"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
-import { Copy, Check, Sparkles, Zap, Image as ImageIcon, Download } from "lucide-react"
+import { Copy, Check, Sparkles, Zap, Image as ImageIcon, Download, ExternalLink } from "lucide-react"
 import { ModeToggle } from "@/components/ModeToggle"
 
 export default function Home() {
@@ -51,14 +51,30 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-violet-50 via-violet-100 to-violet-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-gray-900 dark:text-white transition-colors">
-      {/* Mode Toggle positioned absolutely */}
-      <div className="absolute top-4 right-4 z-20">
-        <ModeToggle />
+      {/* Mode Toggle positioned as fixed header bar */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-sm border-b border-gray-200 dark:border-slate-800">
+        <div className="w-full flex justify-end px-4 py-3">
+          <div className="flex items-center gap-4 text-sm text-muted-foreground">
+            <p className="flex items-center">
+              by{" "}
+
+              <a href="https://dbarreto.net"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ml-1 inline-flex items-center gap-1 font-medium text-foreground hover:underline transition"
+              >
+                DBarreto Studio
+                <ExternalLink className="w-4 h-4" />
+              </a>
+            </p>
+            <ModeToggle />
+          </div>
+        </div>
       </div>
-      
+
       {/* Background decoration */}
       <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=%2260%22 height=%2260%22 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg fill=%22%239CA3AF%22 fill-opacity=%220.03%22%3E%3Cpath d=%22M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-50"></div>
-      
+
       <div className="relative z-10 flex flex-col items-center px-4 py-8 md:py-16">
         {/* Header */}
         <div className="text-center mb-12 animate-in fade-in slide-in-from-bottom-4 duration-1000">
@@ -165,9 +181,9 @@ export default function Home() {
                 <code className="text-sm text-blue-600 dark:text-blue-400 bg-gray-100 dark:bg-slate-900/70 px-4 py-3 rounded-lg w-full overflow-x-auto font-mono border border-gray-200 dark:border-slate-700">
                   {fullUrl}
                 </code>
-                <Button 
-                  size="icon" 
-                  variant="secondary" 
+                <Button
+                  size="icon"
+                  variant="secondary"
                   onClick={handleCopy}
                   className="shrink-0 bg-gray-200 dark:bg-slate-700 hover:bg-gray-300 dark:hover:bg-slate-600 border-gray-300 dark:border-slate-600"
                 >
@@ -177,9 +193,9 @@ export default function Home() {
                     <Copy size={16} />
                   )}
                 </Button>
-                <Button 
-                  size="icon" 
-                  variant="secondary" 
+                <Button
+                  size="icon"
+                  variant="secondary"
                   onClick={handleDownload}
                   className="shrink-0 bg-gray-200 dark:bg-slate-700 hover:bg-gray-300 dark:hover:bg-slate-600 border-gray-300 dark:border-slate-600"
                   title="Download image"
@@ -230,7 +246,7 @@ export default function Home() {
         </div>
 
         {/* Usage Examples */}
-        <div className="w-full max-w-5xl mt-16 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
+        <div className="w-full max-w-5xl mb-10 mt-16 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
           <div className="bg-white/60 dark:bg-slate-800/30 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-gray-200 dark:border-slate-700/50">
             <h2 className="text-2xl font-semibold mb-6 text-center">How to Use</h2>
             <div className="grid md:grid-cols-3 gap-6">
@@ -256,7 +272,7 @@ export default function Home() {
                 <p className="text-sm text-gray-600 dark:text-gray-400">Paste in HTML, Markdown, or designs</p>
               </div>
             </div>
-            
+
             {/* Code Example */}
             <div className="mt-8 p-4 bg-gray-100 dark:bg-slate-900/50 rounded-lg border border-gray-200 dark:border-slate-700/50">
               <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">Example usage:</p>
@@ -267,6 +283,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-    </main>
+    </main >
   );
 }
