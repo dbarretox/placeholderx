@@ -5,29 +5,43 @@ import Image from "next/image"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
-import { Copy, Check, Sparkles, Zap, Image as ImageIcon, Download, ExternalLink } from "lucide-react"
-import { ModeToggle } from "@/components/ModeToggle"
+import { Copy, Check, Sparkles, Zap, Image as ImageIcon, Download } from "lucide-react"
+import { Footer } from "@/components/Footer" 
 
 export default function Home() {
   const [width, setWidth] = useState("600")
   const [height, setHeight] = useState("400")
-  const [origin, setOrigin] = useState("")
   const [copied, setCopied] = useState(false)
   const [downloaded, setDownloaded] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    setOrigin(window.location.origin)
+    setMounted(true)
   }, [])
 
   const size = `${width}x${height}`
   const imageUrl = `/${size}`
-  const fullUrl = origin ? `${origin}/${size}` : `/${size}`
+  
+  // URL consistente para evitar hydration mismatch
+  const getFullUrl = () => {
+    if (!mounted) return `https://placeholderx.vercel.app/${size}`
+    if (typeof window !== 'undefined') {
+      return `${window.location.origin}/${size}`
+    }
+    return `https://placeholderx.vercel.app/${size}`
+  }
+
+  const fullUrl = getFullUrl()
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(fullUrl)
+    const urlToCopy = typeof window !== 'undefined' 
+      ? `${window.location.origin}/${size}` 
+      : fullUrl
+    
+    await navigator.clipboard.writeText(urlToCopy)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
-  };
+  }
 
   const handleDownload = () => {
     const link = document.createElement('a')
@@ -38,7 +52,7 @@ export default function Home() {
     document.body.removeChild(link)
     setDownloaded(true)
     setTimeout(() => setDownloaded(false), 2000)
-  };
+  }
 
   const presets = [
     { label: "Square", width: "500", height: "500" },
@@ -47,33 +61,14 @@ export default function Home() {
     { label: "Mobile", width: "390", height: "844" },
     { label: "Tablet", width: "768", height: "1024" },
     { label: "Banner", width: "1200", height: "300" },
-  ];
+  ]
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-violet-50 via-violet-100 to-violet-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-gray-900 dark:text-white transition-colors">
-      {/* Mode Toggle positioned as fixed header bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-sm border-b border-gray-200 dark:border-slate-800">
-        <div className="w-full flex justify-end px-4 py-3">
-          <div className="flex items-center gap-4 text-sm text-muted-foreground">
-            <p className="flex items-center">
-              by{" "}
-
-              <a href="https://dbarreto.net"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="ml-1 inline-flex items-center gap-1 font-medium text-foreground hover:underline transition"
-              >
-                DBarreto Studio
-                <ExternalLink className="w-4 h-4" />
-              </a>
-            </p>
-            <ModeToggle />
-          </div>
-        </div>
-      </div>
-
+      <Footer />
+      
       {/* Background decoration */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=%2260%22 height=%2260%22 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg fill=%22%239CA3AF%22 fill-opacity=%220.03%22%3E%3Cpath d=%22M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-50"></div>
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=%2260%22 height=%2260%22 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg fill=%22%229CA3AF%22 fill-opacity=%220.03%22%3E%3Cpath d=%22M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-50"></div>
 
       <div className="relative z-10 flex flex-col items-center px-4 py-8 md:py-16">
         {/* Header */}
@@ -126,9 +121,9 @@ export default function Home() {
                     type="text"
                     value={width}
                     onChange={(e) => {
-                      const val = e.target.value.replace(/\D/g, "");
+                      const val = e.target.value.replace(/\D/g, "")
                       if (parseInt(val) <= 4000 || val === "") {
-                        setWidth(val);
+                        setWidth(val)
                       }
                     }}
                     placeholder="600"
@@ -142,9 +137,9 @@ export default function Home() {
                     type="text"
                     value={height}
                     onChange={(e) => {
-                      const val = e.target.value.replace(/\D/g, "");
+                      const val = e.target.value.replace(/\D/g, "")
                       if (parseInt(val) <= 4000 || val === "") {
-                        setHeight(val);
+                        setHeight(val)
                       }
                     }}
                     placeholder="400"
@@ -163,8 +158,8 @@ export default function Home() {
                     variant="outline"
                     size="sm"
                     onClick={() => {
-                      setWidth(preset.width);
-                      setHeight(preset.height);
+                      setWidth(preset.width)
+                      setHeight(preset.height)
                     }}
                     className="bg-gray-50 dark:bg-slate-900/50 border-gray-300 dark:border-slate-600 hover:bg-gray-100 dark:hover:bg-slate-700/50 hover:border-blue-500 dark:hover:border-blue-500 transition-all duration-200"
                   >
@@ -174,38 +169,40 @@ export default function Home() {
               </div>
             </div>
 
-            {/* URL Output */}
+            {/* URL Output - ARREGLADO */}
             <div className="bg-white/80 dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-slate-700/50 shadow-xl">
               <h2 className="text-lg font-semibold mb-4">Your URL</h2>
-              <div className="flex items-center gap-2">
-                <code className="text-sm text-blue-600 dark:text-blue-400 bg-gray-100 dark:bg-slate-900/70 px-4 py-3 rounded-lg w-full overflow-x-auto font-mono border border-gray-200 dark:border-slate-700">
+              <div className="flex flex-col sm:flex-row items-stretch gap-2">
+                <code className="text-xs sm:text-sm text-blue-600 dark:text-blue-400 bg-gray-100 dark:bg-slate-900/70 px-3 sm:px-4 py-2 sm:py-3 rounded-lg flex-1 overflow-x-auto font-mono border border-gray-200 dark:border-slate-700 break-all">
                   {fullUrl}
                 </code>
-                <Button
-                  size="icon"
-                  variant="secondary"
-                  onClick={handleCopy}
-                  className="shrink-0 bg-gray-200 dark:bg-slate-700 hover:bg-gray-300 dark:hover:bg-slate-600 border-gray-300 dark:border-slate-600"
-                >
-                  {copied ? (
-                    <Check size={16} className="text-green-500" />
-                  ) : (
-                    <Copy size={16} />
-                  )}
-                </Button>
-                <Button
-                  size="icon"
-                  variant="secondary"
-                  onClick={handleDownload}
-                  className="shrink-0 bg-gray-200 dark:bg-slate-700 hover:bg-gray-300 dark:hover:bg-slate-600 border-gray-300 dark:border-slate-600"
-                  title="Download image"
-                >
-                  {downloaded ? (
-                    <Check size={16} className="text-green-500" />
-                  ) : (
-                    <Download size={16} />
-                  )}
-                </Button>
+                <div className="flex gap-2 justify-end">
+                  <Button
+                    size="icon"
+                    variant="secondary"
+                    onClick={handleCopy}
+                    className="shrink-0 bg-gray-200 dark:bg-slate-700 hover:bg-gray-300 dark:hover:bg-slate-600 border-gray-300 dark:border-slate-600"
+                  >
+                    {copied ? (
+                      <Check size={16} className="text-green-500" />
+                    ) : (
+                      <Copy size={16} />
+                    )}
+                  </Button>
+                  <Button
+                    size="icon"
+                    variant="secondary"
+                    onClick={handleDownload}
+                    className="shrink-0 bg-gray-200 dark:bg-slate-700 hover:bg-gray-300 dark:hover:bg-slate-600 border-gray-300 dark:border-slate-600"
+                    title="Download image"
+                  >
+                    {downloaded ? (
+                      <Check size={16} className="text-green-500" />
+                    ) : (
+                      <Download size={16} />
+                    )}
+                  </Button>
+                </div>
               </div>
               {copied && (
                 <p className="text-xs text-green-500 mt-2 animate-in fade-in slide-in-from-top-1">
@@ -276,13 +273,13 @@ export default function Home() {
             {/* Code Example */}
             <div className="mt-8 p-4 bg-gray-100 dark:bg-slate-900/50 rounded-lg border border-gray-200 dark:border-slate-700/50">
               <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">Example usage:</p>
-              <code className="text-sm text-blue-600 dark:text-blue-400 font-mono">
-                {`<img src="${origin || 'https://placeholderx.vercel.app'}/1200x600" alt="Placeholder" />`}
+              <code className="text-xs sm:text-sm text-blue-600 dark:text-blue-400 font-mono break-all">
+                {`<img src="${mounted ? (typeof window !== 'undefined' ? window.location.origin : 'https://placeholderx.vercel.app') : 'https://placeholderx.vercel.app'}/1200x600" alt="Placeholder" />`}
               </code>
             </div>
           </div>
         </div>
       </div>
-    </main >
-  );
+    </main>
+  )
 }
