@@ -105,7 +105,7 @@ export default function Home() {
         {/* Main Content */}
         <div className="w-full max-w-5xl grid lg:grid-cols-2 gap-8 lg:gap-12 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200">
           {/* Controls */}
-          <div className="order-last lg:order-first space-y-6">
+          <div className="space-y-6">
             {/* Size Inputs */}
             <div className="bg-white/80 dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-slate-700/50 shadow-xl">
               <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
@@ -149,8 +149,12 @@ export default function Home() {
             </div>
 
             {/* Presets */}
-            <div className="bg-white/80 dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-slate-700/50 shadow-xl">
-              <h2 className="text-lg font-semibold mb-4">Quick Presets</h2>
+            <div className="hidden lg:block bg-white/80 dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-slate-700/50 shadow-xl">
+              <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                <span>Quick Presets</span>
+                <span className="text-xs text-gray-500 dark:text-gray-500 font-normal">(Optional)</span>
+                </h2>
+              
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 {presets.map((preset) => (
                   <Button
@@ -218,7 +222,7 @@ export default function Home() {
           </div>
 
           {/* Preview */}
-          <div className="order-first lg:order-last flex items-center justify-center">
+          <div className="flex items-center justify-center">
             <div className="relative w-full">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl blur-xl opacity-20"></div>
               <div className="relative bg-white/80 dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-4 md:p-6 border border-gray-200 dark:border-slate-700/50 shadow-xl">
