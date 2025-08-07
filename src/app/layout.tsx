@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/ThemeProvider"
+import { Analytics } from "@vercel/analytics/next"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,8 +15,8 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "Placeholder X – Free SVG Image Generator",
-  description: "Free image placeholder generator for HTML, design and development. Created by DBarreto.",
+  title: "Placeholder X – DBarreto Studio",
+  description: "Free SVG image placeholder generator for HTML, design and development.",
 }
 
 export const viewport: Viewport = {
@@ -42,6 +43,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <Analytics/>
         </ThemeProvider>
       </body>
     </html>
